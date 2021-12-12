@@ -8,10 +8,10 @@ public class Function extends JFrame {
     private static final int Height = 320;
     private JTextField textFieldX;
     private JTextField textFieldY;
-    private double mem1,mem2,mem3;
-    Double result;
+    private double mem1=0,mem2=0,mem3=0;
     private JTextField textFieldZ;
     private JTextField textFieldResult;
+    private JTextField textFieldPer;
     private ButtonGroup radioButtons = new ButtonGroup();
     private ButtonGroup radioButtons2 = new ButtonGroup();
     private Box hboxFormulaType = Box.createHorizontalBox();
@@ -30,7 +30,7 @@ public class Function extends JFrame {
         JRadioButton button = new JRadioButton(buttonName);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-                Function.this.formulaId = formulaId;
+
             }
         });
         radioButtons.add(button);
@@ -90,9 +90,8 @@ public class Function extends JFrame {
 // Создать область для вывода результата
         JLabel labelForResult = new JLabel("Результат:");
 //labelResult = new JLabel("0");
-        textFieldResult = new JTextField("0", 10);
-        textFieldResult.setMaximumSize(
-                textFieldResult.getPreferredSize());
+        textFieldResult = new JTextField("0", 20);
+        textFieldResult.setMaximumSize(textFieldResult.getPreferredSize());
         Box hboxResult = Box.createHorizontalBox();
         hboxResult.add(Box.createHorizontalGlue());
         hboxResult.add(labelForResult);
@@ -100,6 +99,17 @@ public class Function extends JFrame {
         hboxResult.add(textFieldResult);
         hboxResult.add(Box.createHorizontalGlue());
         hboxResult.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        //для ввода переменных
+        JLabel labelFieldPer = new JLabel("Значение переменной");
+
+        textFieldPer = new JTextField("0",20);
+        textFieldPer.setMaximumSize(textFieldPer.getPreferredSize());
+        Box hboxPer = Box.createHorizontalBox();
+        hboxPer.add(Box.createHorizontalGlue());
+        hboxPer.add(labelFieldPer);
+        hboxPer.add(Box.createHorizontalStrut(30));
+        hboxPer.add(textFieldPer);
+        hboxPer.add(Box.createHorizontalGlue());
 // Создать область для кнопок
         JButton buttonCalc = new JButton("Вычислить");
         buttonCalc.addActionListener(new ActionListener() {
@@ -108,7 +118,7 @@ public class Function extends JFrame {
                     Double x = Double.parseDouble(textFieldX.getText());
                     Double y = Double.parseDouble(textFieldY.getText());
                     Double z = Double.parseDouble(textFieldZ.getText());
-
+                    Double result;
                     if (formulaId==1)
                         result = calculate1(x,y,z);
                     else
@@ -121,81 +131,55 @@ public class Function extends JFrame {
                 }
             }
         });
-
-        JButton MSum = new JButton("M+");
-        MSum.addActionListener(new ActionListener() {
+        first.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
-                try{
-                    Double x = Double.parseDouble(textFieldX.getText());
-                    Double y = Double.parseDouble(textFieldY.getText());
-                    Double z = Double.parseDouble(textFieldZ.getText());
-                    if(mem1 != x)
-                    if(mem1 == 0 ){
-                        mem1 = Double.parseDouble(textFieldX.getText());
+                Double res = mem1;
+                textFieldPer.setText(res.toString());
 
-                    }
-                    if(mem2 != y)
-                    if( mem2 == 0){
-                        mem2 = Double.parseDouble(textFieldY.getText());
-                    }
-                    if(mem3 != z)
-                    if(mem3 == 0){
-                        mem3 = Double.parseDouble(textFieldZ.getText());
-                    }
-                    if(first.isSelected()){
-                        result = mem1+ result;
-                    }else if(second.isSelected()){
-                        result += mem2;
-                    }else if(third.isSelected()){
-                        result += mem3;
-                    }
-                    textFieldResult.setText(result.toString());
-                }catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(Function.this,
-                            "Ошибка в формате записи числа с плавающей точкой", "Ошибочный формат числа",
-                            JOptionPane.WARNING_MESSAGE);
-                }
             }
         });
-        JButton MReset = new JButton("MC");
-        MReset.addActionListener(new ActionListener() {
+
+        second.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ev) {
-                if(first.isSelected()){
-                    mem1 =  0;
-                }else if(second.isSelected()){
-                    mem2 = 0;
-                }else if(third.isSelected()){
-                    mem3 = 0;
-                    textFieldZ.setText("0");
-                }
-                result = 0.0;
-                textFieldResult.setText("0");
+                Double res = mem2;
+                textFieldPer.setText(res.toString());
 
             }
         });
+        third.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                Double res = mem3;
+                textFieldPer.setText(res.toString());
+
+            }
+        });
+
         JButton buttonReset = new JButton("Очистить поля");
         buttonReset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
+
                 textFieldX.setText("0");
                 textFieldY.setText("0");
                 textFieldZ.setText("0");
                 textFieldResult.setText("0");
-                result = 0.0;
+
             }
         });
-        Box hboxButtons = Box.createHorizontalBox();
-        hboxButtons.add(Box.createHorizontalGlue());
+     /*   Box hboxButtons = Box.createHorizontalBox();
+
         hboxButtons.add(buttonCalc);
-        hboxButtons.add(Box.createHorizontalStrut(30));
+
         hboxButtons.add(buttonReset);
-        hboxButtons.add(Box.createHorizontalStrut(30));
-        hboxButtons.add(MSum);
-        hboxButtons.add(Box.createHorizontalStrut(30));
-        hboxButtons.add(MReset);
         hboxButtons.add(Box.createHorizontalGlue());
+        hboxButtons.add(MSum);
+
+        hboxButtons.add(MReset);
+
         hboxButtons.setBorder(
-                BorderFactory.createLineBorder(Color.GREEN));
+                BorderFactory.createLineBorder(Color.GREEN));*/
         // mem
         Box Mem = Box.createHorizontalBox();
         Mem.add(Box.createHorizontalGlue());
@@ -205,19 +189,18 @@ public class Function extends JFrame {
         Mem.add(Box.createHorizontalStrut(30));
         Mem.add(third);
         Mem.add(Box.createHorizontalGlue());
-        hboxButtons.setBorder(
-                BorderFactory.createLineBorder(Color.RED));
+        //hboxButtons.setBorder(BorderFactory.createLineBorder(Color.RED));
 // Связать области воедино в компоновке BoxLayout
         Box contentBox = Box.createVerticalBox();
         contentBox.add(Box.createVerticalGlue());
-        contentBox.add(hboxFormulaType);
         contentBox.add(hboxVariables);
+        contentBox.add(hboxPer);
         contentBox.add(Mem);
         contentBox.add(hboxResult);
-        contentBox.add(hboxButtons);
+        //contentBox.add(hboxButtons);
+        contentBox.add(hboxFormulaType);
         contentBox.add(Box.createVerticalGlue());
         getContentPane().add(contentBox, BorderLayout.CENTER);
     }
 
 }
-
